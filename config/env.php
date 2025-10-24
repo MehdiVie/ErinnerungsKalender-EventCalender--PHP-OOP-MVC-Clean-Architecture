@@ -11,3 +11,4 @@ if (file_exists(__DIR__ . '/../.env')) {
         putenv("$name=$value");
     }
 }
+

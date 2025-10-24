@@ -1,9 +1,10 @@
 <?php
-error_reporting(E_ALL);
-ini_set('display_errors', 1);
+// error_reporting(E_ALL);
+// ini_set('display_errors', 1);
 
 header('Content-Type: application/json');
 session_start();
+require_once __DIR__ . '/../../config/env.php';
 require_once __DIR__ . '/../../app/services/EventService.php';
 
 $service = new EventService();
@@ -41,7 +42,7 @@ switch ($action) {
     case 'get':
         $id = (int)$_POST['id'];
         $ev = $service->getEvent($id);
-
+        //console.log($ev);
         if ($ev) {
             
             if (!empty($ev['reminder_time'])) {

@@ -95,6 +95,7 @@ document.addEventListener("DOMContentLoaded", () => {
           method: "POST",
           body: formData,
         });
+
         const data = await res.json();
 
         if (data && data.id) {

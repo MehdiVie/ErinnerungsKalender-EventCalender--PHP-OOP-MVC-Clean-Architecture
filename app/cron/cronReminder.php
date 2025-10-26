@@ -25,6 +25,7 @@ try {
     $service = new ReminderQueueService();
     $sentCount = $service->processPendingReminders();
 
+
     $msg = "[" . date('Y-m-d H:i:s') . "] CRON wurde erfolgreich abgeschlossen – E-Mails wurden gesendet.: {$sentCount}\n";
     file_put_contents(__DIR__ . '/cron.log', $msg, FILE_APPEND);
 

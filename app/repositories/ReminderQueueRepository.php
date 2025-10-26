@@ -47,7 +47,7 @@ class ReminderQueueRepository extends Model {
 
               AND q.status = 'pending'
 
-              AND q.scheduled_at <= NOW()
+              AND q.scheduled_at <= local_now()
               AND e.reminder_time IS NOT NULL
             ORDER BY q.scheduled_at ASC
             LIMIT 50
@@ -78,7 +78,7 @@ class ReminderQueueRepository extends Model {
               AND q.status = 'failed'
               AND attempts < 3
 
-              AND q.scheduled_at <= NOW()
+              AND q.scheduled_at <= local_now()
               AND e.reminder_time IS NOT NULL
             ORDER BY q.scheduled_at ASC
             LIMIT 50
@@ -92,13 +92,13 @@ class ReminderQueueRepository extends Model {
     public function markAsSent(int $queue_id, int $event_id): void {
         $this->query("
             UPDATE reminder_queue
-            SET status='sent', attempts=attempts+1, sent_at=NOW(), last_error=NULL
+            SET status='sent', attempts=attempts+1, sent_at=local_now(), last_error=NULL
             WHERE id = :id
         ", [':id' => $queue_id]);
 
         $this->query("
             UPDATE events
-            SET notified = 1, notified_at = NOW()
+            SET notified = 1, notified_at = local_now()
             WHERE id = :event_id
         ", [':event_id' => $event_id]);
     }

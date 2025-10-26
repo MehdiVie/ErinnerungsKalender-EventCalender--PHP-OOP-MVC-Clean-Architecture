@@ -35,9 +35,14 @@ class ReminderQueueService {
         $pendings = $this->repo->getPendingReminders();
         $faileds  = $this->repo->getFailedRemindersToRetry();
 
+
+
         $reminders = array_merge($pendings ?? [], $faileds ?? []);
 
+
+
         if (!$reminders) return 0;
+
 
         $sentCount = 0;
 
@@ -49,8 +54,10 @@ class ReminderQueueService {
                 $row['event_date']
             );
 
+
             try {
                 $ok = $this->mailer->sendMail($row['user_email'], $subject, $message);
+
                 if ($ok) {
                     $this->repo->markAsSent($row['q_id'], $row['event_id']);
                     $sentCount++;
@@ -66,6 +73,7 @@ class ReminderQueueService {
         }
 
         $this->log("Emails sent: {$sentCount}");
+
         return $sentCount;
     }
 
